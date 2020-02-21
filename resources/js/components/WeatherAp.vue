@@ -17,34 +17,12 @@
             <div>{{location.name}}</div>
           </div>
         </div>
-        <div>icon</div>
+        <div>
+          <canvas ref="iconCurrent" id="iconCurrent" width="96" height="96"></canvas>
+        </div>
       </div>
 
       <div class="future-weather text-sm bg-gray-800 px-6 py-8 overflow-hidden">
-        <div class="flex items-center mt-8">
-          <div class="w-1/6 text-lg text-gray-200">MON</div>
-          <div class="w-4/6 px-4 flex items-center">
-            <div>icon</div>
-            <div class="ml-3">Cloudy with a chance of showers</div>
-          </div>
-          <div class="w-1/6 text-right">
-            <div>5°C</div>
-            <div>-2°C</div>
-          </div>
-        </div>
-
-        <div class="flex items-center mt-8">
-          <div class="w-1/6 text-lg text-gray-200">MON</div>
-          <div class="w-4/6 px-4 flex items-center">
-            <div>icon</div>
-            <div class="ml-3">Cloudy with a chance of showers</div>
-          </div>
-          <div class="w-1/6 text-right">
-            <div>5°C</div>
-            <div>-2°C</div>
-          </div>
-        </div>
-
         <div class="flex items-center mt-8">
           <div class="w-1/6 text-lg text-gray-200">MON</div>
           <div class="w-4/6 px-4 flex items-center">
@@ -74,6 +52,7 @@ export default {
         summary: "",
         icon: ""
       },
+      daily: [],
       location: {
         name: "Jiutpec, México",
         lat: 18.8813896,
@@ -83,6 +62,8 @@ export default {
   },
   methods: {
     fetchData() {
+      var skycons = new Skycons({ color: "white" });
+
       fetch(`/api/weather?lat=${this.location.lat}&lng=${this.location.lng}`)
         .then(response => response.json())
         .then(data => {
@@ -93,8 +74,16 @@ export default {
             data.currently.apparentTemperature
           );
           this.currentTemperature.summary = data.currently.summary;
-          this.currentTemperature.icon = data.currently.icon;
+          this.currentTemperature.icon = this.toKebabCase(data.currently.icon);
+
+          this.daily = data.daily.data;
+
+          skycons.add("iconCurrent", this.currentTemperature.icon);
+          skycons.play();
         });
+    },
+    toKebabCase(stringToConvert) {
+      return stringToConvert.split(" ").join("-");
     }
   }
 };

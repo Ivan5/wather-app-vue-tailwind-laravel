@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Weather app</title>
     <link rel="stylesheet" href="/css/main.css">
+    <script src="https://rawgithub.com/darkskyapp/skycons/master/skycons.js"></script>
     <script src="/js/app.js" defer></script>
 </head>
 <body class="bg-blue-500">
