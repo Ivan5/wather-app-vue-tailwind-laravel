@@ -1949,6 +1949,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     this.fetchData();
@@ -1990,6 +1996,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     toKebabCase: function toKebabCase(stringToConvert) {
       return stringToConvert.split(" ").join("-");
+    },
+    toDayOfWeek: function toDayOfWeek(timestamp) {
+      var newDate = new Date(timestamp * 1000);
+      var days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+      return days[newDate.getDay()];
     }
   }
 });
@@ -37414,7 +37425,49 @@ var render = function() {
           ]
         ),
         _vm._v(" "),
-        _vm._m(1)
+        _c(
+          "div",
+          {
+            staticClass:
+              "future-weather text-sm bg-gray-800 px-6 py-8 overflow-hidden"
+          },
+          _vm._l(_vm.daily, function(day, index) {
+            return index < 5
+              ? _c(
+                  "div",
+                  {
+                    key: day.time,
+                    staticClass: "flex items-center mt-8",
+                    class: { "mt-8": index > 0 }
+                  },
+                  [
+                    _c("div", { staticClass: "w-1/6 text-lg text-gray-200" }, [
+                      _vm._v(_vm._s(_vm.toDayOfWeek(day.time)))
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "w-4/6 px-4 flex items-center" }, [
+                      _c("div", [_vm._v("icon")]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "ml-3" }, [
+                        _vm._v(_vm._s(day.summary))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "w-1/6 text-right" }, [
+                      _c("div", [
+                        _vm._v(_vm._s(Math.round(day.temperatureHigh)) + "°C")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", [
+                        _vm._v(_vm._s(Math.round(day.temperatureLow)) + "°C")
+                      ])
+                    ])
+                  ]
+                )
+              : _vm._e()
+          }),
+          0
+        )
       ]
     )
   ])
@@ -37427,39 +37480,6 @@ var staticRenderFns = [
     return _c("div", { staticClass: "places-input text-gray-800" }, [
       _c("input", { staticClass: "w-full", attrs: { type: "text" } })
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass:
-          "future-weather text-sm bg-gray-800 px-6 py-8 overflow-hidden"
-      },
-      [
-        _c("div", { staticClass: "flex items-center mt-8" }, [
-          _c("div", { staticClass: "w-1/6 text-lg text-gray-200" }, [
-            _vm._v("MON")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "w-4/6 px-4 flex items-center" }, [
-            _c("div", [_vm._v("icon")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "ml-3" }, [
-              _vm._v("Cloudy with a chance of showers")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "w-1/6 text-right" }, [
-            _c("div", [_vm._v("5°C")]),
-            _vm._v(" "),
-            _c("div", [_vm._v("-2°C")])
-          ])
-        ])
-      ]
-    )
   }
 ]
 render._withStripped = true
