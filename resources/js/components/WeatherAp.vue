@@ -9,12 +9,12 @@
       <div class="current-weather flex items-center justify-between px-6 py-8">
         <div class="flex items-center">
           <div>
-            <div class="text-6xl font-semibold">8°C</div>
-            <div>Feels like 2°</div>
+            <div class="text-6xl font-semibold">{{currentTemperature.actual}}°C</div>
+            <div>Feels like {{currentTemperature.feels}}°</div>
           </div>
           <div class="mx-5">
-            <div class="font-semibold">Cloudy</div>
-            <div>Toronto, Canada</div>
+            <div class="font-semibold">{{currentTemperature.summary}}</div>
+            <div>{{location.name}}</div>
           </div>
         </div>
         <div>icon</div>
@@ -64,7 +64,38 @@
 <script>
 export default {
   mounted() {
-    console.log("Component mounted.");
+    this.fetchData();
+  },
+  data() {
+    return {
+      currentTemperature: {
+        actual: "",
+        feels: "",
+        summary: "",
+        icon: ""
+      },
+      location: {
+        name: "Jiutpec, México",
+        lat: 18.8813896,
+        lng: -99.1777802
+      }
+    };
+  },
+  methods: {
+    fetchData() {
+      fetch(`/api/weather?lat=${this.location.lat}&lng=${this.location.lng}`)
+        .then(response => response.json())
+        .then(data => {
+          this.currentTemperature.actual = Math.round(
+            data.currently.temperature
+          );
+          this.currentTemperature.feels = Math.round(
+            data.currently.apparentTemperature
+          );
+          this.currentTemperature.summary = data.currently.summary;
+          this.currentTemperature.icon = data.currently.icon;
+        });
+    }
   }
 };
 </script>
